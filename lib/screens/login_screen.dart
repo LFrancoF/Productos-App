@@ -58,7 +58,7 @@ class _LoginForm extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
-              autovalidateMode: AutovalidateMode.onUserInteraction,
+              //autovalidateMode: AutovalidateMode.onUserInteraction,
               autocorrect: false,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecorations.authInputDecoration(
