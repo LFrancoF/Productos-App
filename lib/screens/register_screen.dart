@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
+import 'package:provider/provider.dart';
 import 'package:productos_app/providers/login_form_provider.dart';
+import 'package:productos_app/services/services.dart';
+
 import 'package:productos_app/ui/input_decorations.dart';
 import 'package:productos_app/widgets/widgets.dart';
 
-import 'package:productos_app/services/services.dart';
-
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
    
-  const LoginScreen({Key? key}) : super(key: key);
+  const RegisterScreen({Key? key}) : super(key: key);
   
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 10),
-                    Text('Login', style: Theme.of(context).textTheme.headlineMedium),
+                    Text('Registro', style: Theme.of(context).textTheme.headlineMedium),
                     const SizedBox(height: 30),
 
                     ChangeNotifierProvider(
@@ -37,12 +37,12 @@ class LoginScreen extends StatelessWidget {
               ),
               const SizedBox(height: 50),
               TextButton(
-                onPressed: () => Navigator.pushReplacementNamed(context, 'register'),
+                onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
                 style: ButtonStyle(
                   overlayColor: MaterialStateProperty.all(Colors.indigo.withOpacity(0.1)),
                   shape: MaterialStateProperty.all(const StadiumBorder()),
                 ),
-                child: const Text('Crear una nueva cuenta', style: TextStyle(fontSize: 18, color: Colors.black87)),
+                child: const Text('¿Ya tienes una cuenta?', style: TextStyle(fontSize: 18, color: Colors.black87)),
               ),
               const SizedBox(height: 50)
             ],
@@ -120,18 +120,18 @@ class _LoginForm extends StatelessWidget {
 
                 loginform.isLoading = true;
 
-                //validar si el Login es correcto
-                final String? errorMessage = await authService.login(loginform.email, loginform.password);
+                //validar si el correo ingresado ya existe o algun error
+                final String? errorMessage = await authService.createUsers(loginform.email, loginform.password);
 
                 if (errorMessage == null){
                   // ignore: use_build_context_synchronously
                   Navigator.pushReplacementNamed(context, 'home');
                 }else{
-                  //mostrar error de login
-                  NotificationsService.showSnackbar(errorMessage);
-                  loginform.isLoading = false;
+                  print(errorMessage);
                 }
 
+                loginform.isLoading = false;
+                
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 15),
